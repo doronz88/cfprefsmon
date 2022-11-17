@@ -23,7 +23,7 @@ DEFAULT_USER = 'kCFPreferencesAnyUser'
 @click.option('--color/--no-color', default=True, help='make colored output')
 @click.option('--undefined', is_flag=True, help='filter only non-existing keys')
 def cli(udid, unique, color, undefined):
-    lockdown = LockdownClient(udid=udid)
+    lockdown = LockdownClient(serial=udid)
     prefs = {}
     for entry in OsTraceService(lockdown).syslog():
         if entry.label is None:
