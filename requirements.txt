@@ -1,2 +1,2 @@
-pymobiledevice3>=1.32.2
+pymobiledevice3>=2.0.0
 click
