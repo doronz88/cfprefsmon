@@ -1,9 +1,6 @@
-from collections import namedtuple
-
+import click
 from pymobiledevice3.lockdown import create_using_usbmux
 from pymobiledevice3.services.os_trace import OsTraceService
-
-import click
 
 FORMAT = 'CFPreference[{domain}][{user}][{key}] = {value}  # Process: {procname}'
 
