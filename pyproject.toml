@@ -1,6 +1,6 @@
 [project]
 name = "cfprefsmon"
-version = "0.0.3"
+version = "0.0.4"
 description = "Search for interesting internal preferences inside a connected iDevice"
 readme = "README.md"
 requires-python = ">=3.7"
