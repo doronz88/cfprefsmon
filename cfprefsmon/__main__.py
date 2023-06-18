@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from pymobiledevice3.lockdown import LockdownClient
+from pymobiledevice3.lockdown import create_using_usbmux
 from pymobiledevice3.services.os_trace import OsTraceService
 
 import click
@@ -23,7 +23,7 @@ DEFAULT_USER = 'kCFPreferencesAnyUser'
 @click.option('--color/--no-color', default=True, help='make colored output')
 @click.option('--undefined', is_flag=True, help='filter only non-existing keys')
 def cli(udid, unique, color, undefined):
-    lockdown = LockdownClient(serial=udid)
+    lockdown = create_using_usbmux(serial=udid)
     prefs = {}
     for entry in OsTraceService(lockdown).syslog():
         if entry.label is None:
