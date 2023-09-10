@@ -1,11 +1,24 @@
 # Description
 
-Simple utility to search for interesting preferences in iDevices.
+Simple utility to search for interesting preferences in macOS and connected iDevices.
 
 # Installation
 
 ```shell
-python3 -m pip install -U --user cfprefsmon
+python3 -m pip install -U cfprefsmon
+```
+
+# Usage
+
+```
+Usage: cfprefsmon [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  host    Sniff on macOS host
+  mobile  Sniff on connected iOS device
 ```
 
 # Example
@@ -14,7 +27,7 @@ In this example, where the value for each preference is `None`, this is probably
 on a jailbroken device.
 
 ```
-➜  cfprefmon git:(master) ✗ cfprefsmon
+➜  cfprefmon git:(master) ✗ cfprefsmon mobile
 CFPreference[com.apple.springboard][kCFPreferencesAnyUser][SBDisableHomeButton] = 0   # Process: /System/Library/CoreServices/SpringBoard.app/SpringBoard
 CFPreference[com.apple.springboard][kCFPreferencesAnyUser][SBStoreDemoAppLock] = 0   # Process: /System/Library/CoreServices/SpringBoard.app/SpringBoard
 CFPreference[com.apple.springboard][kCFPreferencesAnyUser][ThermalLockoutEnabledBrickMode] = 0   # Process: /System/Library/CoreServices/SpringBoard.app/SpringBoard
