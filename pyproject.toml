@@ -1,9 +1,9 @@
 [project]
 name = "cfprefsmon"
-version = "0.0.4"
+version = "1.0.0"
 description = "Search for interesting internal preferences inside a connected iDevice"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.7"
 license = { file = "LICENSE" }
 keywords = ["ios", "cli", "preferences", "cfprefsd", "monitor"]
 authors = [
