@@ -9,4 +9,4 @@ debug/
 *.DS_Store
 tickets
 .idea
-
+cfprefsmon/_version.py
