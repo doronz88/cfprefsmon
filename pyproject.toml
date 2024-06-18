@@ -3,7 +3,7 @@ name = "cfprefsmon"
 version = "1.0.0"
 description = "Search for interesting internal preferences inside a connected iDevice"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = { file = "LICENSE" }
 keywords = ["ios", "cli", "preferences", "cfprefsd", "monitor"]
 authors = [
@@ -20,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3 :: Only",
 ]
 dynamic = ["dependencies"]
