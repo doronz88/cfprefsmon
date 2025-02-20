@@ -2,7 +2,7 @@ from typing import Optional
 
 import click
 from maclog.log import get_logger
-from pymobiledevice3.cli.cli_common import LockdownCommand
+from pymobiledevice3.cli.cli_common import LockdownCommand, user_requested_colored_output
 from pymobiledevice3.lockdown import LockdownClient
 from pymobiledevice3.services.os_trace import OsTraceService
 
@@ -81,26 +81,24 @@ def cli():
 
 @cli.command()
 @click.option('--unique', is_flag=True, help='output only unique entries')
-@click.option('--color/--no-color', default=True, help='make colored output')
 @click.option('--undefined', is_flag=True, help='filter only non-existing keys')
-def host(unique, color, undefined):
+def host(unique, undefined):
     """ Sniff on macOS host """
     for entry in get_logger():
         print_entry(entry.event_message, entry.process_image_path, entry.subsystem, entry.category, unique=unique,
-                    color=color, undefined=undefined)
+                    undefined=undefined, color=user_requested_colored_output())
 
 
 @cli.command(cls=LockdownCommand)
 @click.option('--unique', is_flag=True, help='output only unique entries')
-@click.option('--color/--no-color', default=True, help='make colored output')
 @click.option('--undefined', is_flag=True, help='filter only non-existing keys')
-def mobile(service_provider: LockdownClient, unique, color, undefined):
+def mobile(service_provider: LockdownClient, unique, undefined):
     """ Sniff on connected iOS device """
     for entry in OsTraceService(service_provider).syslog():
         if entry.label is None:
             continue
         print_entry(entry.message, entry.filename, entry.label.subsystem, entry.label.category, unique=unique,
-                    color=color, undefined=undefined)
+                    undefined=undefined, color=user_requested_colored_output())
 
 
 if __name__ == '__main__':
