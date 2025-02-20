@@ -1,3 +1,3 @@
-pymobiledevice3>=4.10.0
+pymobiledevice3>=4.20.12
 maclog
 click
