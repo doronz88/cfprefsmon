@@ -47,9 +47,9 @@ CFPreference[com.apple.coreservices.useractivityd][kCFPreferencesAnyUser][Enable
 ...
 ```
 
-filter only domain 'com.apple.softwareupdateservicesd' and users 'kCFPreferencescurrentUser', 'mobile'
+Filter only domain `com.apple.softwareupdateservicesd` and users `kCFPreferencescurrentUser` & `mobile`:
 
-```
+```shell
 cfprefmon mobile --domain-filter 'com.apple.softwareupdateservicesd' --user-filter 'kCFPreferencescurrentUser' --user-filter 'mobile'
 ```
 

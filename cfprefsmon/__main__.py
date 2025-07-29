@@ -22,7 +22,8 @@ PREFS = {}
 
 def print_entry(message: str, filename: str, subsystem: Optional[str] = None, category: Optional[str] = None,
                 unique: bool = False, color: bool = False, undefined: bool = False,
-                domain_filter: list[str] = None, user_filter: list[str] = None, value_change=None) -> None:
+                domain_filter: Optional[list[str]] = None, user_filter: Optional[list[str]] = None,
+                value_change: bool = False) -> None:
     if subsystem != 'com.apple.defaults' or category != 'User Defaults':
         return
 
