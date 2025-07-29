@@ -53,7 +53,7 @@ Filter only domain `com.apple.softwareupdateservicesd` and users `kCFPreferences
 cfprefmon mobile --domain-filter 'com.apple.softwareupdateservicesd' --user-filter 'kCFPreferencescurrentUser' --user-filter 'mobile'
 ```
 
-output preferences for which value has changed during monitoring
+Output preferences for which value has changed during monitoring:
 
 ```
 cfprefmon mobile --value-change
