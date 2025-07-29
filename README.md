@@ -21,7 +21,7 @@ Commands:
   mobile  Sniff on connected iOS device
 ```
 
-# Example
+# Examples
 
 In this example, where the value for each preference is `None`, this is probably some hidden feature we can maybe enable
 on a jailbroken device.
@@ -45,4 +45,16 @@ CFPreference[com.apple.coreservices.useractivityd][kCFPreferencesAnyUser][Activi
 CFPreference[com.apple.coreservices.useractivityd][kCFPreferencesAnyUser][ActivityAdvertisingAllowed] = 1   # Process: /System/Library/PrivateFrameworks/UserActivity.framework/Agents/useractivityd
 CFPreference[com.apple.coreservices.useractivityd][kCFPreferencesAnyUser][EnableHandoffInPowerSaverMode] = 1   # Process: /System/Library/PrivateFrameworks/UserActivity.framework/Agents/useractivityd
 ...
+```
+
+Filter only domain `com.apple.softwareupdateservicesd` and users `kCFPreferencescurrentUser` & `mobile`:
+
+```shell
+cfprefmon mobile --domain-filter 'com.apple.softwareupdateservicesd' --user-filter 'kCFPreferencescurrentUser' --user-filter 'mobile'
+```
+
+Output preferences for which value has changed during monitoring:
+
+```
+cfprefmon mobile --value-change
 ```
