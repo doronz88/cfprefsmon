@@ -1,9 +1,8 @@
-from typing import Optional
+from typing import Annotated, Optional
 
-import click
+import typer
 from maclog.log import get_logger
-from pymobiledevice3.cli.cli_common import user_requested_colored_output
-from pymobiledevice3.lockdown import LockdownClient
+from pymobiledevice3.cli.cli_common import ServiceProviderDep, user_requested_colored_output
 from pymobiledevice3.services.os_trace import OsTraceService
 from typer_injector import InjectingTyper
 
@@ -19,6 +18,22 @@ USER_PREFIX = ", User: "
 DEFAULT_USER = "kCFPreferencesAnyUser"
 
 PREFS = {}
+
+UniqueOption = Annotated[bool, typer.Option("--unique", help="output only unique entries", is_flag=True)]
+UndefinedOption = Annotated[bool, typer.Option("--undefined", help="filter only non-existing keys", is_flag=True)]
+HostDomainFilterOption = Annotated[
+    Optional[list[str]], typer.Option("--domain-filter", help="filter only given domain")
+]
+HostUserFilterOption = Annotated[Optional[list[str]], typer.Option("--user-filter", help="filter only given user")]
+MobileDomainFilterOption = Annotated[
+    Optional[list[str]],
+    typer.Option("--domain", help="filter only given domain"),
+]
+MobileUserFilterOption = Annotated[
+    Optional[list[str]],
+    typer.Option("--user", help="filter only given user"),
+]
+ValueChangeOption = Annotated[bool, typer.Option("--value-change", help="output only on value change", is_flag=True)]
 
 
 def print_entry(
@@ -84,13 +99,13 @@ def print_entry(
     PREFS[domain][user][key] = value
 
     if color:
-        domain = click.style(domain, fg="yellow")
-        user = click.style(user, fg="bright_green")
-        key = click.style(key, fg="green")
-        procname = click.style(procname, fg="magenta")
+        domain = typer.style(domain, fg="yellow")
+        user = typer.style(user, fg="bright_green")
+        key = typer.style(key, fg="green")
+        procname = typer.style(procname, fg="magenta")
 
         if not has_value:
-            value = click.style(value, fg="red")
+            value = typer.style(value, fg="red")
 
     if (not undefined) or (undefined and not has_value):
         print(FORMAT.format(domain=domain, user=user, key=key, value=value, procname=procname))
@@ -102,15 +117,15 @@ cli = InjectingTyper(
 )
 
 
-
 @cli.command()
-@click.option("--unique", is_flag=True, help="output only unique entries")
-@click.option("--undefined", is_flag=True, help="filter only non-existing keys")
-@click.option("--domain-filter", multiple=True, help="filter only given domain")
-@click.option("--user-filter", multiple=True, help="filter only given user")
-@click.option("--value-change", is_flag=True, help="output only on value change")
-def host(unique, undefined, domain_filter: list[str], user_filter: list[str], value_change):
-    """Sniff on macOS host"""
+def host(
+    unique: UniqueOption = False,
+    undefined: UndefinedOption = False,
+    domain_filter: HostDomainFilterOption = None,
+    user_filter: HostUserFilterOption = None,
+    value_change: ValueChangeOption = False,
+):
+    """Sniff over macOS host"""
     for entry in get_logger():
         print_entry(
             entry.event_message,
@@ -126,16 +141,16 @@ def host(unique, undefined, domain_filter: list[str], user_filter: list[str], va
         )
 
 
-@cli.command(cls=LockdownCommand)
-@click.option("--unique", is_flag=True, help="output only unique entries")
-@click.option("--undefined", is_flag=True, help="filter only non-existing keys")
-@click.option("--domain-filter", multiple=True, help="filter only given domain")
-@click.option("--user-filter", multiple=True, help="filter only given user")
-@click.option("--value-change", is_flag=True, help="output only on value change")
+@cli.command()
 def mobile(
-    service_provider: LockdownClient, unique, undefined, domain_filter: list[str], user_filter: list[str], value_change
+    service_provider: ServiceProviderDep,
+    unique: UniqueOption = False,
+    undefined: UndefinedOption = False,
+    domain_filter: MobileDomainFilterOption = None,
+    user_filter: MobileUserFilterOption = None,
+    value_change: ValueChangeOption = False,
 ):
-    """Sniff on connected iOS device"""
+    """Sniff over connected iOS device"""
     for entry in OsTraceService(service_provider).syslog():
         if entry.label is None:
             continue
