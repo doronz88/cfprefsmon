@@ -1,32 +1,38 @@
-# Description
+# cfprefsmon
 
-Simple utility to search for interesting preferences in macOS and connected iDevices.
+## Overview
 
-# Installation
+`cfprefsmon` streams CFPreferences activity so you can spot interesting keys and values on a macOS host or a connected iOS device.
+
+## Installation
 
 ```shell
 python3 -m pip install -U cfprefsmon
 ```
 
-# Usage
+## Usage
 
+```none
+ Usage: cfprefsmon [OPTIONS] COMMAND [ARGS]...
+
+ Inspect CFPreferences activity on macOS hosts and iOS devices.
+
+╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ --install-completion          Install completion for the current shell.                                                           │
+│ --show-completion             Show completion for the current shell, to copy it or customize the installation.                    │
+│ --help                        Show this message and exit.                                                                         │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ host     Stream CFPreferences activity from the macOS host.                                                                       │
+│ mobile   Stream CFPreferences activity from a connected iOS device.                                                               │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
-Usage: cfprefsmon [OPTIONS] COMMAND [ARGS]...
 
-Options:
-  --help  Show this message and exit.
+## Examples
 
-Commands:
-  host    Sniff on macOS host
-  mobile  Sniff on connected iOS device
-```
+In this example, several preferences resolve to `None`, which can hint at uninitialized or internal-only settings.
 
-# Examples
-
-In this example, where the value for each preference is `None`, this is probably some hidden feature we can maybe enable
-on a jailbroken device.
-
-```
+```none
 ➜  cfprefmon git:(master) ✗ cfprefsmon mobile
 CFPreference[com.apple.springboard][kCFPreferencesAnyUser][SBDisableHomeButton] = 0   # Process: /System/Library/CoreServices/SpringBoard.app/SpringBoard
 CFPreference[com.apple.springboard][kCFPreferencesAnyUser][SBStoreDemoAppLock] = 0   # Process: /System/Library/CoreServices/SpringBoard.app/SpringBoard
@@ -47,14 +53,14 @@ CFPreference[com.apple.coreservices.useractivityd][kCFPreferencesAnyUser][Enable
 ...
 ```
 
-Filter only domain `com.apple.softwareupdateservicesd` and users `kCFPreferencescurrentUser` & `mobile`:
+Filter to a single domain and specific users:
 
 ```shell
-cfprefmon mobile --domain-filter 'com.apple.softwareupdateservicesd' --user-filter 'kCFPreferencescurrentUser' --user-filter 'mobile'
+cfprefsmon mobile --domain 'com.apple.softwareupdateservicesd' --user 'kCFPreferencescurrentUser' --user 'mobile'
 ```
 
-Output preferences for which value has changed during monitoring:
+Only output entries when values change during monitoring:
 
-```
-cfprefmon mobile --value-change
+```shell
+cfprefsmon mobile --value-change
 ```
